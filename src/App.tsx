@@ -6,16 +6,54 @@ import { useState } from "react";
 
 // Components
 import QrReader from "./components/QrReader";
+import { AppBar, Box, Button, Container, Grid, Paper, Toolbar, Typography } from "@mui/material";
 
 function App() {
   const [openQr, setOpenQr] = useState<boolean>(true);
-  const [nissValue, setNissValue] = useState<string>(true);
+  const [nissValue, setNissValue] = useState<string>("");
   const defaultTeam = "Tempo's";
 
   return (
     <div>
-      <h1>LWT Scanner</h1>
-      {openQr && <>
+
+        <AppBar position="absolute">
+          <Toolbar
+            sx={{
+              pr: '24px', // keep right padding when drawer closed
+            }}
+          >
+            <Typography
+              component="h1"
+              variant="h6"
+              color="inherit"
+              noWrap
+              sx={{ flexGrow: 1 }}
+            >
+              LWT Scanner
+            </Typography>
+          </Toolbar>
+      </AppBar>
+
+      <Box
+          component="main"
+          sx={{
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'light'
+                ? theme.palette.grey[100]
+                : theme.palette.grey[900],
+            flexGrow: 1,
+            height: '100vh',
+            overflow: 'auto',
+          }}
+      >
+        
+        <Toolbar />
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+            <Grid container spacing={3}>
+              {/* Recent Orders */}
+              <Grid item xs={12}>
+                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                {openQr && <>
         <input type="text" inputMode="numeric" pattern="\d*" placeholder="niss" 
           onChange={e => setNissValue(e.target.value)} />
 
@@ -36,9 +74,15 @@ function App() {
           <button className="trappers">Trappers</button>
           <button className="moderatos">Moderato's</button>
         </div>
-        <button className="valid" onClick={() => setOpenQr(!openQr)}>Valideren</button>
+                  <Button variant="contained" sx={ {marginTop:"10px"}} onClick={() => setOpenQr(!openQr)}>Valideren</Button>
       
       </>}
+            </Paper>
+              </Grid>
+            </Grid>
+          </Container>
+</Box>
+      
 
     </div>
   );
