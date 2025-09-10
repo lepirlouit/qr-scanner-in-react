@@ -13,10 +13,12 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@fontsource/roboto": "^5.0.13",
+    "@maslick/koder": "^1.3.2",
     "@mui/material": "^5.15.19",
     "qr-scanner": "^1.4.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-usestateref": "^1.0.9"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",

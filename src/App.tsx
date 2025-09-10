@@ -5,7 +5,10 @@ import "./App.css";
 import { useState } from "react";
 
 // Components
-import QrReader from "./components/QrReader";
+// import QrReader from "./components/QrReader";
+import Scan from "./components/scan";
+
+
 import { AppBar, Box, Button, Container, Grid, Paper, Toolbar, Typography } from "@mui/material";
 
 function App() {
@@ -58,7 +61,7 @@ function App() {
           onChange={e => setNissValue(e.target.value)} />
 
         <button onClick={() => setOpenQr(!openQr)}>-&gt;</button>
-        <QrReader />
+        <Scan scanRate={250}/>
       </>}
       {!openQr && <>
         <button onClick={() => setOpenQr(!openQr)}>&lt;-</button>
