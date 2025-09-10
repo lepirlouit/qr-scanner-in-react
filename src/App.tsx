@@ -61,9 +61,9 @@ function App() {
           onChange={e => setNissValue(e.target.value)} />
 
         <button onClick={() => setOpenQr(!openQr)}>-&gt;</button>
-        <Scan scanRate={250}/>
+        <Scan scanRate={250} setNissValue={(val) => {setNissValue(val);setOpenQr(!openQr); }} />
       </>}
-      {!openQr && <>
+      {(!openQr) && <>
         <button onClick={() => setOpenQr(!openQr)}>&lt;-</button>
         <h2>{nissValue}</h2>
         <h2>{ defaultTeam}</h2>

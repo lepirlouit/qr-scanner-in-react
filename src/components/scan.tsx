@@ -40,6 +40,7 @@ export default function Scan({
   scanRate = 250,
   bw = false,
   crosshair = true,
+  setNissValue = (_stringValue:string) => {},
 }) {
 
   // Component state
@@ -111,7 +112,7 @@ export default function Scan({
         //     res = await transformer.transform(res);
         //   }
         // }
-
+        setNissValue(res);
         setBarcode(res);
         setResultOpen(true);
         setRawCode(rawCode);
@@ -201,8 +202,9 @@ export default function Scan({
         imageData = canvas.getImageData(x0, y0, crossHairWidth, crossHairHeight);
       else
         imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
-      qrworker.postMessage({width: imageData.width, height: imageData.height});
-      qrworker.postMessage(imageData, [imageData.data.buffer]);
+
+      qrworker.postMessage({imageData: imageData.data, width: imageData.width, height: imageData.height});
+      // qrworker.postMessage(imageData, [imageData.data.buffer]);
     }
   };
 

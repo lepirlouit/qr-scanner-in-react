@@ -1,32 +1,33 @@
 // src: https://github.com/maslick/koder/blob/master/public/wasmWorker.js
 
-importScripts("wasm/zbar.js");
-importScripts("wasm/koder.js");
+importScripts("wasm/zxing-wasm@2.2.1_reader.js");
+
+
+const readerOptions = {
+  tryHarder: true,
+  formats: ["DataMatrix", "Code128"],
+  maxNumberOfSymbols: 1,
+};
 
 
 (async () => {
-  // Initialize Koder
-  const koder = await new Koder().initialize({wasmDirectory: "./wasm"});
-
   // Listen for messages from JS main thread containing raw image data
   self.addEventListener('message', event => {
-    if ('width' in event.data && 'height' in event.data) {
-      this.width = event.data.width;
-      this.height = event.data.height;
-    }
 
-    const {data} = event.data;
-    if (!data) return;
+    const {imageData, width, height} = event.data;
+    if (!imageData) return;
 
     const t0 = new Date().getTime();
-    const scanResult = koder.decode(data, this.width, this.height);
-    const t1 = new Date().getTime();
-    if (scanResult) {
-      postMessage({
-        data: scanResult.code,
-        type: scanResult.type,
-        ms: t1-t0
-      });
-    }
+    (async () => {
+      const imageFileReadResults = await ZXingWASM.readBarcodes(new ImageData(imageData, width, height), readerOptions);
+      const t1 = new Date().getTime();
+      if (imageFileReadResults[0]) {
+        postMessage({
+          data: imageFileReadResults[0].text,
+          type: imageFileReadResults[0].contentType,
+          ms: t1-t0
+        });
+      }
+    })();
   });
 })();
